@@ -47,7 +47,7 @@ const Checkout = ({ route }) => {
 
   // Calculate total price of all items in the cart
   const calculateTotalPrice = () => {
-    return selectedProducts.reduce((total, item) => total + (item.discountPrice * item.quantity || 0), 0);
+    return selectedProducts.reduce((total, item) => total + (item.price * item.quantity || 0), 0);
   };
 
   return (
@@ -57,11 +57,11 @@ const Checkout = ({ route }) => {
       <View><Text style={{ fontSize: 40, fontWeight: 'bold', color: 'black' }}>selected Product</Text></View>
       {product && !isProductAdded ? (
         <View style={{ flexDirection: 'row' ,gap:30}}>
-          <Image style={styles.cartimage} source={product.imageUrl} />
+          <Image style={styles.cartimage} source={{ uri: product.image }} />
           <View style={{ flexDirection: 'column', gap: 10 }}>
-            <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}> {product.name}</Text>
-            <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}>Price: Rs {product.discountPrice}</Text>
-            <Button onPress={handleAddToCart} title='Add to Cart'  buttonStyle={{ backgroundColor: 'green' }} />
+            <Text style={{ fontSize: 20, fontWeight: '300', color: 'black' }}> {product.title}</Text>
+            <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}>Price: $ {product.price}</Text>
+            <Button onPress={handleAddToCart} title='Add to Cart'  buttonStyle={{ backgroundColor: 'green',width:120 }} />
           </View>
         </View>
       ) : (
@@ -69,20 +69,20 @@ const Checkout = ({ route }) => {
       )}
       <View style={{ alignSelf: 'flex-start', }}>
         <Text style={{ fontSize: 50, fontWeight: 'bold', color: 'black' }}>Your Cart</Text>
-        <Text style={{color:'green',fontSize:20}}> Total price = Rs {calculateTotalPrice()}</Text>
+        <Text style={{color:'green',fontSize:20}}> Total price = $ {calculateTotalPrice()}</Text>
         <FlatList
           data={selectedProducts}
           renderItem={({ item, index }) => (
             <View style={{ flexDirection: 'row', gap: 20, backgroundColor: '#dcdcdc', alignItems: 'center', width: 400 }}>
-              <Image style={styles.imageThumbnail} source={item.imageUrl} />
+              <Image style={styles.imageThumbnail} source={{uri:item.image}} />
               <View style={{ flexDirection: 'column', gap: 5 }}>
-                <Text style={{ fontSize: 20, fontWeight: '300', color: 'black' }}>{item.name}</Text>
+                <Text  style={{ fontSize: 20, fontWeight: '300', color: 'black' }}>{item.title}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Button onPress={() => handleDecreaseQuantity(index)} title="-" buttonStyle={styles.quantitybutton}/>
                   <Text style={{ fontSize: 20, fontWeight: '300', color: 'black', marginHorizontal: 10 }}>{item.quantity}</Text>
                   <Button onPress={() => handleIncreaseQuantity(index)} title="+" buttonStyle={styles.quantitybutton} />
                 </View>
-                <Text style={{ fontSize: 20, fontWeight: '300', color: 'black' }}>Price: Rs {item.discountPrice * item.quantity || 0}</Text>
+                <Text style={{ fontSize: 20, fontWeight: '300', color: 'black' }}>Price: $ {item.price * item.quantity || 0}</Text>
                 <Button onPress={() => handleRemoveFromCart(index)} buttonStyle={styles.removebutton} icon={
                   <Icon
                     name="trash"
@@ -117,16 +117,17 @@ export default Checkout;
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     alignSelf:'flex-start',
-    
     gap:5
   },
   imageThumbnail: {
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'center',
-    height: 100,
+    height: 50,
     alignSelf:'center',
-    width:100,
+    width:50,
+    resizeMode:'cover',
+    resizeMode:'stretch',
  
   },
   removebutton:{
@@ -144,6 +145,7 @@ export default Checkout;
     borderRadius:20
   },
   cartimage:{
-    height:100,width:200
+    height:100,width:150,resizeMode:'cover',
+    resizeMode:'stretch'
   }
  })

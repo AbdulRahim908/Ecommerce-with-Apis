@@ -25,10 +25,26 @@ import WishList from './pages/wishlist';
 import Settings from './pages/settings';
 import Search from './pages/search';
 import ProductDetail from './pages/productDetail';
+import CategoryPage from './pages/categorypage';
 
 const Stack=createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+
+const HomeScreens=()=>{
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} 
+       options={{headerShown:false}}/>
+      <Stack.Screen name="ProductDetail" component={ProductDetail}/>
+      <Stack.Screen name="CategoryPage" component={CategoryPage}
+      //  options={{headerShown:false}}
+       />
+    </Stack.Navigator>
+
+  )
+}
 const HomeTab=()=>{
   return(
   <Tab.Navigator
@@ -55,7 +71,7 @@ const HomeTab=()=>{
   })}
   >
     <Tab.Screen name='Home'
-        component={Home}
+        component={HomeScreens}
         options={{headerShown:false}}/>
     <Tab.Screen  name='WishList'
         component={WishList}
@@ -78,7 +94,7 @@ const HomeTab=()=>{
 const App=()=>{
   return(
     <NavigationContainer>
-     <Stack.Navigator initialRouteName='SplashScreen'
+     <Stack.Navigator initialRouteName='Home'
       >
         <Stack.Screen name='SplashScreen'
         component={SplashScreen}
