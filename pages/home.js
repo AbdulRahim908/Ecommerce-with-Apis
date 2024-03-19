@@ -34,10 +34,10 @@ const Home = ({ navigation }) => {
   const searchFilter = (text) => {
     if (text) {
       const newData = masterData.filter((item) => {
-        const itemData = item.title ? item.title.toUpperCase()
-          : ''.toUpperCase();
+        const titleData = item.title ? item.title.toUpperCase() : '';
+        const descriptionData = item.description ? item.description.toUpperCase() : '';
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
+        return titleData.includes(textData) || descriptionData.includes(textData);
       });
       setProducts(newData);
       setSearch(text);
@@ -46,6 +46,19 @@ const Home = ({ navigation }) => {
       setSearch(text);
     }
   }
+  const [isHeartFilled, setIsHeartFilled] = useState(false);
+
+  const toggleHeartColor = (productId) => {
+    setProducts(products.map(product => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          isHeartFilled: !product.isHeartFilled // Toggle heart state for the clicked product
+        };
+      }
+      return product;
+    }));
+  };
   return (
     // fetchProduct()
     <View style={styles.container}>
@@ -66,7 +79,7 @@ const Home = ({ navigation }) => {
       
         placeholder='Search Any product'
         placeholderTextColor='black'
-        style={{ backgroundColor: 'white',height:50,width:"100%" ,borderColor:'black',borderWidth:1}}
+        style={{ backgroundColor: 'white',height:50,width:"100%" ,borderColor:'#dcdcdc',borderWidth:1}}
         
         onChangeText={(text) => searchFilter(text)}
       />
@@ -149,17 +162,18 @@ const Home = ({ navigation }) => {
                 <Text numberOfLines={2} style={{ fontSize: 15, fontWeight: '300', color: 'black', lineHeight: 20, maxHeight: 40 }}>{item.description}</Text>
                 <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ${item.price}</Text>
-                  <Icon
-                    name="heart-o"
-                    size={18}
-                    color="black"
-                  />
+                  <TouchableOpacity onPress={() => toggleHeartColor(item.id)}>
+              <Icon
+                name={item.isHeartFilled ? 'heart' : 'heart-o'}
+                size={30}
+                color={item.isHeartFilled ? 'red' : 'black'}
+              />
+            </TouchableOpacity>
                 </View>
-                {/* <Text style={{fontSize:15,fontWeight:'300',color:'black'}}>{item.rating}</Text> */}
               </Pressable>
             </View>
           )}
-          //Setting the number of column
+          
           numColumns={2}
           keyExtractor={item => item.id} />
       </View>

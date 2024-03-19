@@ -20,7 +20,7 @@ import Checkout from './pages/checkout';
 import Login from './pages/login';
 import Slider_splash from './pages/slider_splash';
 import SplashScreen from './pages/first_splash';
-import Signup from './pages/signup'
+// import Signup from './pages/signup'
 import WishList from './pages/wishlist';
 import Settings from './pages/settings';
 import Search from './pages/search';
@@ -38,9 +38,8 @@ const HomeScreens=()=>{
       <Stack.Screen name="Home" component={Home} 
        options={{headerShown:false}}/>
       <Stack.Screen name="ProductDetail" component={ProductDetail}/>
-      <Stack.Screen name="CategoryPage" component={CategoryPage}
-      //  options={{headerShown:false}}
-       />
+      <Stack.Screen name="CategoryPage" component={CategoryPage}/>
+
     </Stack.Navigator>
 
   )
@@ -81,9 +80,9 @@ const HomeTab=()=>{
         initialParams={{ product: null }}
         // options={{headerShown:false}}
         />
-    <Tab.Screen name='Search'
+    {/* <Tab.Screen name='Search'
         component={Search}
-        options={{headerShown:false}}/>
+        options={{headerShown:false}}/> */}
     <Tab.Screen name='Settings'
         component={Settings}
         options={{headerShown:false}}/>
@@ -94,7 +93,7 @@ const HomeTab=()=>{
 const App=()=>{
   return(
     <NavigationContainer>
-     <Stack.Navigator initialRouteName='Home'
+     <Stack.Navigator initialRouteName='SplashScreen'
       >
         <Stack.Screen name='SplashScreen'
         component={SplashScreen}
@@ -117,9 +116,9 @@ const App=()=>{
         <Stack.Screen name='Login'
         component={Login}
         options={{headerShown:false}}/>
-        <Stack.Screen name='Signup'
+        {/* <Stack.Screen name='Signup'
         component={Signup}
-        options={{headerShown:false}}/>
+        options={{headerShown:false}}/> */}
         <Stack.Screen name='Settings'
         component={Settings}
         options={{headerShown:false}}/>

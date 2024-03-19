@@ -8,18 +8,17 @@ import {
   Alert,
 } from "react-native";
 
-import auth from "@react-native-firebase/auth";
 import { Avatar } from "react-native-elements";
 
 const Settings = ({navigation}) => {
   const imageUrl = 'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg';
   const [user,setUser]=useState();
-  useEffect(()=>{
-    const subscriber=auth().onAuthStateChanged((user) => {
-      console.log("user", JSON.stringify(user));
-      setUser(user);
-    });return subscriber;
-  },[])
+//   useEffect(()=>{
+//     const subscriber=auth().onAuthStateChanged((user) => {
+//       console.log("user", JSON.stringify(user));
+//       setUser(user);
+//     });return subscriber;
+//   },[])
   const logout = () => {
     Alert.alert(
       "Logout",
@@ -34,15 +33,7 @@ const Settings = ({navigation}) => {
         {
           text: "Confirm",
           onPress: () => {
-            auth()
-              .signOut()
-              .then(() => navigation.replace("Login"))
-              // .catch((error) => {
-              //   console.log(error);
-              //   if (error.code === "auth/no-current-user")
-              //     navigation.replace("Auth");
-              //   else alert(error);
-              // });
+            navigation.replace("Login")
           },
         },
       ],
