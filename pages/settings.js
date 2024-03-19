@@ -53,7 +53,7 @@ const Settings = ({navigation}) => {
           <Text
             style={{color:'black',fontSize:25,fontWeight:'bold'}}
           >
-            Your profile
+            Welcome!!!
           </Text>
           <Avatar
           rounded

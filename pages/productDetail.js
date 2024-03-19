@@ -19,6 +19,7 @@ const ProductDetail = ({route,navigation}) => {
     <Text style={{color:'black',fontSize:18,fontWeight:'600'}}>Product Details:</Text>
     <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}>{product.description}</Text>
     <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ${product.price}</Text>
+    <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ⭐ {product.rating.rate}</Text>
     {/* <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}>Rating {product.rating}</Text> */}
     <Button title=" Go to cart"  buttonStyle={styles.button} onPress={handleCheckout}
     icon={

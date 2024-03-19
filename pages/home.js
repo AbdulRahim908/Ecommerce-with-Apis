@@ -15,14 +15,15 @@ const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [masterData, setMasterData] = useState([]);
   const [search, setSearch] = useState('');
+  const [sortByDesc, setSortByDesc] = useState(false);
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [sortByDesc]);
 
   const fetchProduct = async () => {
     try {
-      const result = await fetch(`${BaseUrl}`);
+      const result = await fetch(`${BaseUrl}${sortByDesc ? '?sort=desc' : ''}`);
       const data = await result.json(); // Await the JSON parsing
       setProducts(data);
       setMasterData(data);
@@ -85,8 +86,8 @@ const Home = ({ navigation }) => {
       />
       <View style={styles.featured}>
         <Text style={{ color: 'black', fontSize: 25, fontWeight: '600' }}>All Featured</Text>
-        <View style={{ gap: 10, alignItems: 'center', flexDirection: 'row', marginLeft: 110 }}>
-          <Button title=" sort" color="black" buttonStyle={styles.button}
+        <View style={{ gap: 10, alignItems: 'center', flexDirection: 'row', marginLeft: 200 }}>
+          <Button title=" sort" color="black" buttonStyle={styles.button} onPress={() => setSortByDesc(!sortByDesc)}
             icon={
               <Icon
                 name="sort"
@@ -96,14 +97,14 @@ const Home = ({ navigation }) => {
             }
 
           />
-          <Button title=" filter" buttonStyle={styles.button}
+          {/* <Button title=" filter" buttonStyle={styles.button}
             icon={
               <Icon
                 name="filter"
                 size={15}
                 color="white"
               />
-            } />
+            } /> */}
         </View>
       </View>
       <View style={styles.circles}>

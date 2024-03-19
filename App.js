@@ -74,6 +74,7 @@ const HomeTab=()=>{
         options={{headerShown:false}}/>
     <Tab.Screen  name='WishList'
         component={WishList}
+        // options={{headerShown:false}}
         />
     <Tab.Screen name='Checkout'
         component={Checkout}
@@ -85,7 +86,7 @@ const HomeTab=()=>{
         options={{headerShown:false}}/> */}
     <Tab.Screen name='Settings'
         component={Settings}
-        options={{headerShown:false}}/>
+        />
   </Tab.Navigator>
   )
 }

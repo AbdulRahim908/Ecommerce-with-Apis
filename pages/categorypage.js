@@ -13,54 +13,6 @@ const CategoryPage = ({navigation, route}) => {
         fetchCategory(category);
       }, [category]);
 
-
-    // useEffect(() => {
-    //     fetchElectronics();
-    //     fetchJewelry();
-    //     fetchMensClothing();
-    //     fetchWomensClothing();
-    // }, []);
-
-    // const fetchElectronics = async () => {
-    //     try {
-    //         const result = await fetch(`${BaseUrl}/electronics`);
-    //         const data = await result.json(); // Await the JSON parsing
-    //         setCategories(data);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error('Error fetching products:', error);
-    //     }
-    // }
-    // const fetchjewelery = async () => {
-    //     try {
-    //         const result = await fetch(`${BaseUrl}/jewelery`);
-    //         const data = await result.json(); // Await the JSON parsing
-    //         setCategories(data);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error('Error fetching products:', error);
-    //     }
-    // }
-    // const fetchmen = async () => {
-    //     try {
-    //         const result = await fetch(`${BaseUrl}/men's%20clothing`);
-    //         const data = await result.json(); // Await the JSON parsing
-    //         setCategories(data);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error('Error fetching products:', error);
-    //     }
-    // }
-    // const fetchwomen = async () => {
-    //     try {
-    //         const result = await fetch(`${BaseUrl}/women's%20clothing`);
-    //         const data = await result.json(); // Await the JSON parsing
-    //         setCategories(data);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.error('Error fetching products:', error);
-    //     }
-    // }
     useEffect(() => {
         fetchCategory(category);
         // Update header title dynamically
@@ -77,7 +29,8 @@ const CategoryPage = ({navigation, route}) => {
         } catch (error) {
           console.error('Error fetching products:', error);
         }
-      }
+      };
+      
     return (
         
         <View style={styles.container}>
@@ -109,7 +62,7 @@ const CategoryPage = ({navigation, route}) => {
          <Text style={{fontSize:18,fontWeight:'500',color:'black'}}> ${item.price}</Text>
          <Icon
         name="heart-o"
-        size={18}
+        size={30}
         color="black"
       />
          </View>
