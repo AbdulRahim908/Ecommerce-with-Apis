@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, StatusBar, ScrollView, Image, Pressable,TextInput } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, StatusBar, ScrollView, Image, Pressable,TextInput,ActivityIndicator} from 'react-native'
 import React, { useContext } from 'react'
 import useNavigation from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 const BaseUrl = 'https://fakestoreapi.com/products';
 
 const Home = ({ navigation }) => {
+
   const imageUrl = 'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'
   const [products, setProducts] = useState([]);
   const [masterData, setMasterData] = useState([]);
   const [search, setSearch] = useState('');
   const [sortByDesc, setSortByDesc] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchProduct();
@@ -24,14 +26,17 @@ const Home = ({ navigation }) => {
   const fetchProduct = async () => {
     try {
       const result = await fetch(`${BaseUrl}${sortByDesc ? '?sort=desc' : ''}`);
-      const data = await result.json(); // Await the JSON parsing
+      const data = await result.json();
       setProducts(data);
       setMasterData(data);
+      setIsLoading(false);
       // console.log(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setIsLoading(false);
     }
-  }
+  };
+
   const searchFilter = (text) => {
     if (text) {
       const newData = masterData.filter((item) => {
@@ -60,8 +65,11 @@ const Home = ({ navigation }) => {
       return product;
     }));
   };
+  if (!products) {
+    return <ActivityIndicator />;
+  }
+
   return (
-    // fetchProduct()
     <View style={styles.container}>
       <Header backgroundColor='white'
         placement="center"
@@ -76,17 +84,17 @@ const Home = ({ navigation }) => {
           />
         }
       />
-      <TextInput  
-      
+      <TextInput
+
         placeholder='Search Any product'
         placeholderTextColor='black'
-        style={{ backgroundColor: 'white',height:50,width:"100%" ,borderColor:'#dcdcdc',borderWidth:1}}
-        
+        style={{ backgroundColor: 'white', height: 50, width: "100%", borderColor: '#dcdcdc', borderWidth: 1 }}
+
         onChangeText={(text) => searchFilter(text)}
       />
       <View style={styles.featured}>
         <Text style={{ color: 'black', fontSize: 25, fontWeight: '600' }}>All Featured</Text>
-        <View style={{ gap: 10, alignItems: 'center', flexDirection: 'row', marginLeft: 200 }}>
+        <View style={{ gap: 10, alignItems: 'center', flexDirection: 'row', marginLeft: 170 }}>
           <Button title=" sort" color="black" buttonStyle={styles.button} onPress={() => setSortByDesc(!sortByDesc)}
             icon={
               <Icon
@@ -97,14 +105,7 @@ const Home = ({ navigation }) => {
             }
 
           />
-          {/* <Button title=" filter" buttonStyle={styles.button}
-            icon={
-              <Icon
-                name="filter"
-                size={15}
-                color="white"
-              />
-            } /> */}
+
         </View>
       </View>
       <View style={styles.circles}>
@@ -137,6 +138,11 @@ const Home = ({ navigation }) => {
         <Text style={{ color: 'black' }}>   Womens</Text>
       </View >
       <View style={styles.cardContainer}>
+      {isLoading ? (
+        <View style={[styles.container, styles.loadingContainer]}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      ) : (
         <FlatList
           data={products}
           renderItem={({ item }) => (
@@ -164,19 +170,21 @@ const Home = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ${item.price}</Text>
                   <TouchableOpacity onPress={() => toggleHeartColor(item.id)}>
-              <Icon
-                name={item.isHeartFilled ? 'heart' : 'heart-o'}
-                size={30}
-                color={item.isHeartFilled ? 'red' : 'black'}
-              />
-            </TouchableOpacity>
+                    <Icon
+                      name={item.isHeartFilled ? 'heart' : 'heart-o'}
+                      size={30}
+                      color={item.isHeartFilled ? 'red' : 'black'}
+                    />
+                  </TouchableOpacity>
                 </View>
               </Pressable>
             </View>
           )}
-          
+
           numColumns={2}
           keyExtractor={item => item.id} />
+          )}
+        
       </View>
     </View>
   )
@@ -226,6 +234,10 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     resizeMode: 'stretch',
 
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
 })

@@ -1,9 +1,9 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator,  } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import React, { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { useEffect,createContext ,useState} from 'react';
 // import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -90,49 +90,61 @@ const HomeTab=()=>{
   </Tab.Navigator>
   )
 }
+export const ContextApi=createContext();
 
+const checkUserToken = async () => {
+  try {
+    const userToken = await AsyncStorage.getItem('token');
+    return userToken; // Return the userToken
+  } catch (error) {
+    console.error('Error retrieving user token:', error);
+    throw error; // Rethrow the error
+  }
+};
 const App=()=>{
-  return(
-    <NavigationContainer>
-     <Stack.Navigator initialRouteName='SplashScreen'
-      >
-        <Stack.Screen name='SplashScreen'
-        component={SplashScreen}
-        options={{headerShown:false}}
-        />
-        <Stack.Screen name='Slider_splash'
-        component={Slider_splash}
-        options={{headerShown:false}}
-        />
-      <Stack.Screen name='Entrypage'
-        component={Entrypage}
-        options={{headerShown:false}}
-        />
-         <Stack.Screen name='Home'
-        component={HomeTab}
-        options={{headerShown:false}}
-        />
-        {/* <Stack.Screen name='Checkout'
-        component={Checkout}/>  */}
-        <Stack.Screen name='Login'
-        component={Login}
-        options={{headerShown:false}}/>
-        {/* <Stack.Screen name='Signup'
-        component={Signup}
-        options={{headerShown:false}}/> */}
-        <Stack.Screen name='Settings'
-        component={Settings}
-        options={{headerShown:false}}/>
-        {/* <Stack.Screen name='Checkout'
-        component={Checkout}
-        options={{headerShown:false}}/> */}
-        <Stack.Screen name='ProductDetail'
-        component={ProductDetail}
-        />
-      </Stack.Navigator>
-  </NavigationContainer>
-  )
-}
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      try {
+        const userToken = await checkUserToken();
+        setLoggedIn(!!userToken); // Update loggedIn based on userToken existence
+      } catch (error) {
+        console.error('Error checking user token:', error);
+      }
+    };
+
+    checkLoggedInStatus();
+  }, []);
+
+  return (
+    <ContextApi.Provider value={{ setLoggedIn ,setData }}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {!loggedIn ? (
+            <>
+              <Stack.Screen name="SplashScreen" component={SplashScreen} />
+              <Stack.Screen name="Slider_splash" component={Slider_splash} />
+              {/* <Stack.Screen name="Entrypage" component={Entrypage} /> */}
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Home" component={HomeTab} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="Home" component={HomeTab} />
+              <Stack.Screen name="ProductDetail" component={ProductDetail} />
+              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="Login" component={Login} />
+              
+               
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ContextApi.Provider>
+  );
+};
 
 const styles = StyleSheet.create({
   rowContainer: {

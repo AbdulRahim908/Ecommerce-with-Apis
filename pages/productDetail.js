@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Pressable } from 'react-native';
+import { StyleSheet, Text, View,Pressable, ScrollView } from 'react-native';
 import React from 'react';
 // import {dataSource} from '../data/constants';
 import { Image ,Button} from 'react-native-elements';
@@ -12,6 +12,7 @@ const ProductDetail = ({route,navigation}) => {
     navigation.navigate('Checkout', { product });
   };
   return (
+    <ScrollView>
     <View style={styles.container}>
       
     <Image style={styles.imageThumbnail} source={{ uri: product.image }} />
@@ -31,6 +32,7 @@ const ProductDetail = ({route,navigation}) => {
     }
     />
   </View>
+  </ScrollView>
   )
 }
 
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flex:1,
-    gap:5,width:400
+    gap:5,width:400,padding:16
 
   },
   imageThumbnail: {

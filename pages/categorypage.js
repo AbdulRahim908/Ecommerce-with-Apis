@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,Pressable,Image} from 'react-native'
+import { StyleSheet, Text, View ,Pressable,Image,TouchableOpacity,ActivityIndicator} from 'react-native'
 import React from 'react'
 import { useEffect, useState } from "react";
 import { FlatList } from 'react-native';
@@ -7,7 +7,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const BaseUrl = 'https://fakestoreapi.com/products/category';
 const CategoryPage = ({navigation, route}) => {
     const { category } = route.params;
-    const [Categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     useEffect(() => {
         fetchCategory(category);
@@ -25,17 +27,36 @@ const CategoryPage = ({navigation, route}) => {
           const result = await fetch(`${BaseUrl}/${category}`);
           const data = await result.json();
           setCategories(data);
+          setIsLoading(false);
         //   console.log(data);
         } catch (error) {
           console.error('Error fetching products:', error);
+          setIsLoading(false);
         }
       };
-      
+      const [isHeartFilled, setIsHeartFilled] = useState(false);
+
+      const toggleHeartColor = (productId) => {
+        setCategories(categories.map(product => {
+          if (product.id === productId) {
+            return {
+              ...product,
+              isHeartFilled: !product.isHeartFilled // Toggle heart state for the clicked product
+            };
+          }
+          return product;
+        }));
+      };
     return (
         
         <View style={styles.container}>
+          {isLoading ? (
+        <View style={[styles.container, styles.loadingContainer]}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      ) : (
             <FlatList
-     data={Categories}
+     data={categories}
      renderItem={({item}) => (
        <View
          style={{
@@ -60,11 +81,13 @@ const CategoryPage = ({navigation, route}) => {
          <Text numberOfLines={2} style={{fontSize:15,fontWeight:'300',color:'black',lineHeight:20,maxHeight:40}}>{item.description}</Text>
          <View style={{flexDirection:'row', gap:10, justifyContent:'space-between'}}>
          <Text style={{fontSize:18,fontWeight:'500',color:'black'}}> ${item.price}</Text>
-         <Icon
-        name="heart-o"
-        size={30}
-        color="black"
-      />
+         <TouchableOpacity onPress={() => toggleHeartColor(item.id)}>
+              <Icon
+                name={item.isHeartFilled ? 'heart' : 'heart-o'}
+                size={30}
+                color={item.isHeartFilled ? 'red' : 'black'}
+              />
+            </TouchableOpacity>
          </View>
          {/* <Text style={{fontSize:15,fontWeight:'300',color:'black'}}>{item.rating}</Text> */}
          </Pressable>
@@ -73,6 +96,7 @@ const CategoryPage = ({navigation, route}) => {
      //Setting the number of column
      numColumns={2}
      keyExtractor={item=>item.id}/>
+     )}
         </View>
         
 

@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 
 
@@ -15,23 +14,23 @@ const Login = ({ navigation }) => {
             const result = await fetch('https://fakestoreapi.com/auth/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Set content type to JSON
+                    'Content-Type': 'application/json' 
                 },
                 body: JSON.stringify({
-                    username: email, // Assuming email is used as username
+                    username: email, 
                     password: password
                 })
             });
             if (result.ok) {
-                const data = await result.json(); 
-                const token = data.token; 
-                await AsyncStorage.setItem('userToken', token);
+                const data = await result.json();
+                const token = data.token;
+                await AsyncStorage.setItem('token', token);
                 console.log('Login successful. Token:', token);
-                navigation.replace('Entrypage');
+                navigation.replace('Home');
             } else {
-                const errorMessage = await result.text(); // Get error message as text
+                const errorMessage = await result.text(); 
                 console.error('Login failed:', errorMessage);
-                setError(errorMessage); // Set error state with the error message
+                setError(errorMessage); 
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -40,17 +39,6 @@ const Login = ({ navigation }) => {
     };
 
 
-    //   const handleLogin = async () => {
-    //     try {
-    //       const userCredential = await auth().signInWithEmailAndPassword(email, password);
-    //       const user = userCredential.user;
-    //       console.log('Logged in user:', user);
-    //       navigation.replace('Entrypage');
-    //     } catch (error) {
-    //       console.error('Login error:', error);
-    //       alert('Invalid login credentials');
-    //     }
-    //   };
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.text}>Welcome</Text>
@@ -66,11 +54,11 @@ const Login = ({ navigation }) => {
                         placeholder='Password' style={styles.input}
                         value={password}
                         onChangeText={(text) => setPassword(text)} />
-                         {error ? <Text style={{color:'red'}}>{error}</Text> : null}
+                    {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
                     <Pressable style={styles.button} onPress={(fetchUser)}>
                         <Text style={styles.buttontext}>Login</Text>
                     </Pressable>
-                   
+
                     {/* <View style={styles.row}>
                         <Text style={styles.extratext}>Create An Account </Text>
                         <TouchableOpacity onPress={() => navigation.navigate('Signup')}><Text style={styles.touchable}>SignUp</Text></TouchableOpacity></View> */}
