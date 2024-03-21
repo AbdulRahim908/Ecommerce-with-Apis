@@ -16,6 +16,7 @@ const ProductDetail = ({route,navigation}) => {
     <View style={styles.container}>
       
     <Image style={styles.imageThumbnail} source={{ uri: product.image }} />
+    <View style={{padding:10 ,gap:5}}>
     <Text style={{ fontSize: 25, fontWeight: '900', color: 'black' }}>{product.title}</Text>
     <Text style={{color:'black',fontSize:18,fontWeight:'600'}}>Product Details:</Text>
     <Text style={{ fontSize: 15, fontWeight: '300', color: 'black' }}>{product.description}</Text>
@@ -31,6 +32,7 @@ const ProductDetail = ({route,navigation}) => {
       />
     }
     />
+    </View>
   </View>
   </ScrollView>
   )
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flex:1,
-    gap:5,width:400,padding:16
+    gap:5,width:400,
 
   },
   imageThumbnail: {

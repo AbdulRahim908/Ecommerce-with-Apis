@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect,createContext ,useState} from 'react';
-// import type {PropsWithChildren} from 'react';
+import messaging from '@react-native-firebase/messaging'
 import {
   SafeAreaView,
   ScrollView,
@@ -12,7 +12,7 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  View,Image, Platform
+  View,Image, Platform,Alert,PermissionsAndroid
 } from 'react-native';
 import Home from './pages/home';
 import Entrypage from './pages/entrypage';
@@ -29,7 +29,6 @@ import CategoryPage from './pages/categorypage';
 
 const Stack=createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 
 const HomeScreens=()=>{
@@ -114,9 +113,24 @@ const App=()=>{
         console.error('Error checking user token:', error);
       }
     };
-
     checkLoggedInStatus();
   }, []);
+  //device notifications tokens ki lmbi
+ useEffect(()=>{
+  getDeviceToken();
+
+ },[]);
+ useEffect(() => {
+  const unsubscribe = messaging().onMessage(async remoteMessage => {
+    Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  });
+  return unsubscribe;
+}, []);
+  const getDeviceToken=async()=>{
+    let token = await messaging().getToken();
+    console.log( `Fcm token ${token}` );
+
+  }
 
   return (
     <ContextApi.Provider value={{ setLoggedIn ,setData }}>

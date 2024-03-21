@@ -5,12 +5,39 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, } from '@react-navigation/native-stack';
 import { Header, Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { FlatList } from 'react-native';
+import { FlatList ,PermissionsAndroid} from 'react-native';
 import { Products } from '../data/constants'
 import { useEffect, useState } from "react";
-const BaseUrl = 'https://fakestoreapi.com/products';
 
+const BaseUrl = 'https://fakestoreapi.com/products';
+async function requestNotificationPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      {
+        title: 'Notification Permission',
+        message: 'This app would like to send you notifications.',
+        // Optionally provide rationale for the permission request
+        // This is only available on Android 11 and below
+        rationale: {
+          title: 'Notification Permission',
+          message: 'We need your permission to send notifications.',
+          buttonPositive: 'OK',
+        },
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Notification permission granted');
+    } else {
+      console.log('Notification permission denied');
+    }
+  } catch (err) {
+    console.warn('Error requesting notification permission:', err);
+  }
+}
 const Home = ({ navigation }) => {
+  requestNotificationPermission();
+
 
   const imageUrl = 'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'
   const [products, setProducts] = useState([]);
