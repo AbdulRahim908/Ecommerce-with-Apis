@@ -69,6 +69,15 @@ const Settings = ({navigation}) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
+            onPress={()=>navigation.navigate('MapScreen')}
+          >
+            <Text style={styles.buttonTextStyle}>
+              Select Your Order Delivery Location
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
             onPress={logout}
           >
             <Text style={styles.buttonTextStyle}>

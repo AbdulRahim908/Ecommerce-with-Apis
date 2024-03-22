@@ -1,12 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View, StatusBar, ScrollView, Image, Pressable,TextInput,ActivityIndicator} from 'react-native'
 import React, { useContext } from 'react'
-import useNavigation from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, } from '@react-navigation/native-stack';
 import { Header, Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FlatList ,PermissionsAndroid} from 'react-native';
-import { Products } from '../data/constants'
 import { useEffect, useState } from "react";
 
 const BaseUrl = 'https://fakestoreapi.com/products';
@@ -115,7 +111,7 @@ const Home = ({ navigation }) => {
 
         placeholder='Search Any product'
         placeholderTextColor='black'
-        style={{ backgroundColor: 'white', height: 50, width: "100%", borderColor: '#dcdcdc', borderWidth: 1 }}
+        style={{ backgroundColor: 'white', height: 50, width: "100%", borderColor: '#dcdcdc', borderWidth: 1 ,color: 'black'}}
 
         onChangeText={(text) => searchFilter(text)}
       />
@@ -226,7 +222,8 @@ const styles = StyleSheet.create({
   featured: {
     flexDirection: 'row',
     gap: 10,
-    marginLeft: 5
+    marginLeft: 5,
+    justifyContent:'space-evenly'
 
   },
   button: {

@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   button:{
     backgroundColor:'green',
-    marginLeft:5
+    alignSelf:'flex-start'
   },
  
 })
