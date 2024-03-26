@@ -4,7 +4,9 @@ import { Header, Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FlatList ,PermissionsAndroid} from 'react-native';
 import { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from 'react-redux'
+import { addToWishlist,removeFromWishlist } from '../redux/wishListReducer';
+import Snackbar from 'react-native-snackbar';
 const BaseUrl = 'https://fakestoreapi.com/products';
 async function requestNotificationPermission() {
   try {
@@ -33,7 +35,7 @@ async function requestNotificationPermission() {
 }
 const Home = ({ navigation }) => {
   requestNotificationPermission();
-
+ 
 
   const imageUrl = 'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'
   const [products, setProducts] = useState([]);
@@ -91,6 +93,20 @@ const Home = ({ navigation }) => {
   if (!products) {
     return <ActivityIndicator />;
   }
+  const wishlist = useSelector((state) => state.wishlist.wishlist)
+  console.log(wishlist)
+  const dispatch = useDispatch();
+  const addProductToWishList =(product) => {
+    const isInWishlist = wishlist.find((item) => item.id === product.id);
+  if (isInWishlist) {
+    dispatch(removeFromWishlist(product));
+  } else {
+    dispatch(addToWishlist(product));
+  }
+  };
+  // const removeProductFromWishList=(item) => {
+  //   dispatch(removeFromWishlist(item));
+  // };
 
   return (
     <View style={styles.container}>
@@ -111,7 +127,7 @@ const Home = ({ navigation }) => {
 
         placeholder='Search Any product'
         placeholderTextColor='black'
-        style={{ backgroundColor: 'white', height: 50, width: "100%", borderColor: '#dcdcdc', borderWidth: 1 ,color: 'black'}}
+        style={{ backgroundColor: 'white', height: 50, width: 400, borderColor: '#dcdcdc', borderWidth: 1 ,color: 'black',alignSelf:'center',borderRadius:15}}
 
         onChangeText={(text) => searchFilter(text)}
       />
@@ -192,7 +208,10 @@ const Home = ({ navigation }) => {
                 <Text numberOfLines={2} style={{ fontSize: 15, fontWeight: '300', color: 'black', lineHeight: 20, maxHeight: 40 }}>{item.description}</Text>
                 <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ${item.price}</Text>
-                  <TouchableOpacity onPress={() => toggleHeartColor(item.id)}>
+                  <TouchableOpacity onPress={() => {toggleHeartColor(item.id); addProductToWishList(item); Snackbar.show({
+              text: 'Check your your wishlist',
+              duration: Snackbar.LENGTH_SHORT,textColor:"white",backgroundColor:"red"
+            });}}>
                     <Icon
                       name={item.isHeartFilled ? 'heart' : 'heart-o'}
                       size={30}

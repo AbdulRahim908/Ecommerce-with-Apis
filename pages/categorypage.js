@@ -3,7 +3,8 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { addToWishlist,removeFromWishlist } from '../redux/wishListReducer';
 const BaseUrl = 'https://fakestoreapi.com/products/category';
 const CategoryPage = ({navigation, route}) => {
     const { category } = route.params;
@@ -47,6 +48,17 @@ const CategoryPage = ({navigation, route}) => {
           return product;
         }));
       };
+      const wishlist = useSelector((state) => state.wishlist.wishlist)
+  console.log(wishlist)
+  const dispatch = useDispatch();
+  const addProductToWishList =(product) => {
+    const isInWishlist = wishlist.find((item) => item.id === product.id);
+  if (isInWishlist) {
+    dispatch(removeFromWishlist(product));
+  } else {
+    dispatch(addToWishlist(product));
+  }
+  };
     return (
         
         <View style={styles.container}>
@@ -81,7 +93,7 @@ const CategoryPage = ({navigation, route}) => {
          <Text numberOfLines={2} style={{fontSize:15,fontWeight:'300',color:'black',lineHeight:20,maxHeight:40}}>{item.description}</Text>
          <View style={{flexDirection:'row', gap:10, justifyContent:'space-between'}}>
          <Text style={{fontSize:18,fontWeight:'500',color:'black'}}> ${item.price}</Text>
-         <TouchableOpacity onPress={() => toggleHeartColor(item.id)}>
+         <TouchableOpacity onPress={() => {toggleHeartColor(item.id); addProductToWishList(item);}}>
               <Icon
                 name={item.isHeartFilled ? 'heart' : 'heart-o'}
                 size={30}

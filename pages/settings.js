@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { ContextApi } from '../App'
+import { ContextApi } from './navigations'
 import { Avatar } from "react-native-elements";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 const Settings = ({navigation}) => {
