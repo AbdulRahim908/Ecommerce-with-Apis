@@ -35,7 +35,7 @@ const Checkout = () => {
                   margin: 5,
                   borderRadius: 15,
                   overflow: 'hidden',
-                  backgroundColor: '#dcdcdc',justifyContent:'flex-start',paddingRight:100,width:400
+                  backgroundColor: '#dcdcdc',justifyContent:'flex-start',paddingRight:100,width:380
                   
                 }}>
                     <View style={{flexDirection:'row'}}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems:'center',backgroundColor:'white'
+    alignItems:'center',backgroundColor:'white',paddingTop:30
     
   },
   image: {

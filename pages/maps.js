@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Circle, Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 const MapScreen = () => {
@@ -50,8 +50,9 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       {initialRegion && (
-        <MapView style={styles.map} initialRegion={initialRegion}>
-          <Marker coordinate={initialRegion} />
+        <MapView style={styles.map} initialRegion={initialRegion} showsUserLocation={true}>
+          <Marker title='Your Location' coordinate={initialRegion}  />
+          
         </MapView>
       )}
     </View>

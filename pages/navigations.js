@@ -37,10 +37,21 @@ const HomeScreens=()=>{
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} 
        options={{headerShown:false}}/>
-      <Stack.Screen name="ProductDetail" component={ProductDetail}/>
+      <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown:false}} />
       <Stack.Screen name="CategoryPage" component={CategoryPage}/>
 
     </Stack.Navigator>
+
+  )
+}
+const settingsScreens=()=>{
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Settings" component={Settings} 
+       options={{headerShown:false}}/>
+      <Stack.Screen name='MapScreen' component={MapScreen} options={{title:'Your Location',headerTitleAlign:'center'}} />
+    </Stack.Navigator>
+
 
   )
 }
@@ -73,19 +84,19 @@ const HomeTab=()=>{
         component={HomeScreens}
         options={{headerShown:false}}/>
     <Tab.Screen  name='WishList'
-        component={WishList}
-        // options={{headerShown:false}}
+        component={WishList} 
+        options={{headerTitleAlign:'center'}}
         />
     <Tab.Screen name='Checkout'
         component={Checkout}
         initialParams={{ product: null }}
-        // options={{headerShown:false}}
+        options={{title:'Your Cart',headerTitleAlign:'center'}}
         />
     {/* <Tab.Screen name='Search'
         component={Search}
         options={{headerShown:false}}/> */}
     <Tab.Screen name='Settings'
-        component={Settings}
+        component={settingsScreens} options={{headerShown:false}}
         />
   </Tab.Navigator>
   )
@@ -149,9 +160,9 @@ const AppNavigator=()=>{
           ) : (
             <>
               <Stack.Screen name="Home" component={HomeTab} />
-              <Stack.Screen name="Settings" component={Settings} />
+              {/* <Stack.Screen name="Settings" component={settingsScreens} /> */}
               <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name='MapScreen' component={MapScreen} />
+              
               
                
             </>

@@ -84,7 +84,7 @@ const Home = ({ navigation }) => {
       if (product.id === productId) {
         return {
           ...product,
-          isHeartFilled: !product.isHeartFilled // Toggle heart state for the clicked product
+          isHeartFilled: true 
         };
       }
       return product;
@@ -127,10 +127,11 @@ const Home = ({ navigation }) => {
 
         placeholder='Search Any product'
         placeholderTextColor='black'
-        style={{ backgroundColor: 'white', height: 50, width: 400, borderColor: '#dcdcdc', borderWidth: 1 ,color: 'black',alignSelf:'center',borderRadius:15}}
+        style={{ backgroundColor: 'white', height: 50, width: 380, borderColor: '#dcdcdc', borderWidth: 1 ,color: 'black',alignSelf:'center',borderRadius:15}}
 
         onChangeText={(text) => searchFilter(text)}
       />
+      <ScrollView>
       <View style={styles.featured}>
         <Text style={{ color: 'black', fontSize: 25, fontWeight: '600' }}>All Featured</Text>
         <View style={{ gap: 10, alignItems: 'center', flexDirection: 'row', marginLeft: 170 }}>
@@ -209,8 +210,12 @@ const Home = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'space-between' }}>
                   <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}> ${item.price}</Text>
                   <TouchableOpacity onPress={() => {toggleHeartColor(item.id); addProductToWishList(item); Snackbar.show({
-              text: 'Check your your wishlist',
-              duration: Snackbar.LENGTH_SHORT,textColor:"white",backgroundColor:"red"
+              text: 'Check your wishlist',
+              duration: Snackbar.LENGTH_SHORT,textColor:"white",backgroundColor:"#F83758",action: {
+                text: 'check',
+                textColor: 'white',
+                onPress: () => navigation.navigate('WishList'),
+              },
             });}}>
                     <Icon
                       name={item.isHeartFilled ? 'heart' : 'heart-o'}
@@ -228,6 +233,7 @@ const Home = ({ navigation }) => {
           )}
         
       </View>
+      </ScrollView>
     </View>
   )
 }
@@ -242,7 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     marginLeft: 5,
-    justifyContent:'space-evenly'
+    justifyContent:'space-evenly',alignSelf:'center'
 
   },
   button: {
@@ -252,13 +258,13 @@ const styles = StyleSheet.create({
   circles: {
     gap: 38,
     flexDirection: 'row',
-    marginLeft: 5
+    marginLeft: 5,
 
   },
   circlenames: {
     gap: 28,
     flexDirection: 'row',
-    // marginLeft:
+    marginLeft:2
   },
   cardContainer: {
     flex: 1,

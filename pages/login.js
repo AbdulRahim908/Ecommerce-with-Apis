@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, ActivityIndicator, Pressable } from 'react-native';
 import React, { useState, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,8 +8,10 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchUser = async () => {
+        setIsLoading(true);
         try {
             const result = await fetch('https://fakestoreapi.com/auth/login', {
                 method: 'POST',
@@ -36,6 +38,9 @@ const Login = ({ navigation }) => {
             console.error('Login error:', error);
             setError('An unexpected error occurred. Please try again.');
         }
+        finally {
+            setIsLoading(false); 
+        }
     };
 
 
@@ -56,7 +61,11 @@ const Login = ({ navigation }) => {
                         onChangeText={(text) => setPassword(text)} />
                     {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
                     <Pressable style={styles.button} onPress={(fetchUser)}>
-                        <Text style={styles.buttontext}>Login</Text>
+                    {isLoading ? (
+                            <ActivityIndicator size="small" color="white" />
+                        ) : (
+                            <Text style={styles.buttontext}>Login</Text>
+                        )}
                     </Pressable>
 
                     {/* <View style={styles.row}>

@@ -26,7 +26,7 @@ const WishList = ({navigation}) => {
                   margin: 5,
                   borderRadius: 15,
                   overflow: 'hidden',
-                  backgroundColor: '#dcdcdc',justifyContent:'flex-start',paddingRight:100,width:400
+                  backgroundColor: '#dcdcdc',justifyContent:'flex-start',paddingRight:100,width:380,
                   
                 }}><Pressable onPress={()=>navigation.navigate('ProductDetail', { product: item },)}>
                     <View style={{flexDirection:'row'}}>
@@ -39,8 +39,8 @@ const WishList = ({navigation}) => {
                     <Text numberOfLines={1} style={{color:'black'}}>{item.title}</Text>
                     <Text style={{color:'black'}}>${item.price}</Text>
                     <Text style={{color:'black'}}>⭐{item.rating.rate}</Text>
-                    {/* <Pressable onPress={()=>removeProductFromWishList(item)}><Icon name='trash-o'size={25}
-                  color="black"/></Pressable> */}
+                    <Pressable onPress={()=>removeProductFromWishList(item)}><Icon name='trash-o'size={30}
+                  color="black"/></Pressable>
                    
                 
 
@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
   image: {
     width: 500,
     height: '98%',
-    resizeMode: 'cover', paddingTop:100
+    resizeMode: 'contain', paddingTop:200
   },
   container: {
     // flex: 1,
     justifyContent: 'center',
-    alignItems:'center',backgroundColor:'white'
+    alignItems:'center',backgroundColor:'white',flexGrow:350
    
   },
 })
