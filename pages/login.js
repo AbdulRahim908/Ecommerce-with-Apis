@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
                         value={password}
                         onChangeText={(text) => setPassword(text)} />
                     {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-                    <Pressable style={styles.button} onPress={(fetchUser)}>
+                    <Pressable style={styles.button} onPress={() => fetchUser()}>
                     {isLoading ? (
                             <ActivityIndicator size="small" color="white" />
                         ) : (

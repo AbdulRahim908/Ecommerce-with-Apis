@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     alignproducts: 'center',
     width: 410,
     
-    borderRadius: 20,
+    borderRadius: 40,
     resizeMode: 'stretch',
 
 

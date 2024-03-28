@@ -50,7 +50,8 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       {initialRegion && (
-        <MapView style={styles.map} initialRegion={initialRegion} showsUserLocation={true}>
+        <MapView style={styles.map} initialRegion={initialRegion} showsUserLocation={true} 
+        showsTraffic={true} followsUserLocation={true} >
           <Marker title='Your Location' coordinate={initialRegion}  />
           
         </MapView>

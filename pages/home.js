@@ -84,7 +84,7 @@ const Home = ({ navigation }) => {
       if (product.id === productId) {
         return {
           ...product,
-          isHeartFilled: true 
+          isHeartFilled: !product.isHeartFilled 
         };
       }
       return product;
@@ -131,6 +131,11 @@ const Home = ({ navigation }) => {
 
         onChangeText={(text) => searchFilter(text)}
       />
+       {isLoading ? (
+        <View style={[styles.container, styles.loadingContainer]}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      ) : (
       <ScrollView>
       <View style={styles.featured}>
         <Text style={{ color: 'black', fontSize: 25, fontWeight: '600' }}>All Featured</Text>
@@ -178,11 +183,7 @@ const Home = ({ navigation }) => {
         <Text style={{ color: 'black' }}>   Womens</Text>
       </View >
       <View style={styles.cardContainer}>
-      {isLoading ? (
-        <View style={[styles.container, styles.loadingContainer]}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      ) : (
+     
         <FlatList
           data={products}
           renderItem={({ item }) => (
@@ -230,10 +231,11 @@ const Home = ({ navigation }) => {
 
           numColumns={2}
           keyExtractor={item => item.id} />
-          )}
+         
         
       </View>
       </ScrollView>
+      )}
     </View>
   )
 }

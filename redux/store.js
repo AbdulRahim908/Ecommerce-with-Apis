@@ -3,7 +3,7 @@ import cartReducer from "./cartReducer";
 import wishListReducer from "./wishListReducer";
 import { combineReducers, } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
-import storage from "redux-persist/lib/storage";
+// import storage from "redux-persist/lib/storage";
 import {
     FLUSH,
     REHYDRATE,
@@ -12,9 +12,10 @@ import {
     PURGE,
     REGISTER,
   } from 'redux-persist'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 let persistConfig={
     key:'root',
-    storage,
+    storage:AsyncStorage,
 }
 let rootReducer=combineReducers({
     cart: cartReducer,
